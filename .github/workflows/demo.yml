@@ -1,7 +1,34 @@
 name: Test
 
 on:
-  pull_request:
+  workflow_call:
+    inputs:
+      os:
+        description: OS
+        type: string
+        required: true
+      python-version:
+        description: Python version
+        type: string
+        required: true
+  workflow_dispatch:
+    inputs:
+      os:
+        description: OS
+        type: choice
+        options:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+          - arc-runner-set
+        required: false
+        default: ubuntu-latest
+      python-version:
+        description: Python version
+        type: choice
+        options: ['3.8', '3.9', '3.10', '3.11']
+        required: false
+        default: '3.8'
 
 jobs:
   build:
