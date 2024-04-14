@@ -9,5 +9,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Push changes
-        run: |
-          echo ${{ github.head_ref }}
+        run: echo "${{ github.event.issue.title }}"
