@@ -9,4 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Push changes
-        run: echo "${{ github.event.issue.title }}"
+        env:
+          TEST: ${{ github.event.issue.title }}
+        run: echo "$TEST"
