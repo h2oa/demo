@@ -10,12 +10,23 @@ jobs:
     steps:
       - name: Push changes
         run: |
-          echo "${{ github.event.pull_request.head.ref }}"
-          echo "${{ github.event.pull_request.head.repo.full_name }}"
-          echo "${{ github.event.number }}"
-          echo "${{ github.event.pull_request.head.sha }}"
-          mkdir git_context
-          echo "${{ github.event.pull_request.head.ref }}" > git_context/ref.atf
-          echo "${{ github.event.pull_request.head.repo.full_name }}" > git_context/repo.atf
-          echo "${{ github.event.number }}" > git_context/pr.atf
-          echo "${{ github.event.pull_request.head.sha }}" > git_context/sha.atf
+          set -x
+
+          python -m pip install virtualenv
+
+          # ID this runner
+          asv machine --yes
+
+          echo "Baseline:  ${{ github.event.pull_request.base.sha }} (${{ github.event.pull_request.base.label }})"
+          echo "Contender: ${GITHUB_SHA} (${{ github.event.pull_request.head.label }})"
+
+          # Run benchmarks for current commit against base
+          ASV_OPTIONS="--split --show-stderr --factor $ASV_FACTOR"
+          asv continuous $ASV_OPTIONS ${{ github.event.pull_request.base.sha }} ${GITHUB_SHA} \
+              | sed "/Traceback \|failed$\|PERFORMANCE DECREASED/ s/^/::error::/" \
+              | tee benchmarks.log
+
+          # Report and export results for subsequent steps
+          if grep "Traceback \|failed\|PERFORMANCE DECREASED" benchmarks.log > /dev/null ; then
+              exit 1
+          fi
