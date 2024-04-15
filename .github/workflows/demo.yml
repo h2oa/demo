@@ -2,15 +2,26 @@ name: Test
 
 on:
   pull_request:
-    paths:
-      - path1/path2/**
+    branches:
+      - main
+    types:
+      - labeled
+      - unlabeled
+      - opened
+      - synchronize
+      - reopened
 
 jobs:
-  build:
+  check-changesets:
+    if: |
+      !contains(github.event.pull_request.labels.*.name, '🤖Skip Major Check')
     runs-on: ubuntu-latest
     steps:
-      - name: Push changes
-        run: |
-          BRANCH_PREVIEW_SUBDOMAIN=$(echo "${{ github.head_ref || github.ref_name }}" | sed 's/[^a-zA-Z0-9-]/-/g' | sed 's/^-*//' | sed 's/-*$//')
-          echo "$BRANCH_PREVIEW_SUBDOMAIN"
-          echo "BRANCH_PREVIEW_SUBDOMAIN=$BRANCH_PREVIEW_SUBDOMAIN" >> "${GITHUB_ENV}"
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Fetch all branches
+        run: git fetch --all
+
+      - name: Checkout the feature branch
+        run: git checkout ${{ github.head_ref }} --
