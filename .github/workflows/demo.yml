@@ -1,6 +1,7 @@
 name: Pre-delete Translation
 
 on:
+  pull_request: 
   workflow_run:
     workflows: ["trigger"]
     types: 
