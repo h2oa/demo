@@ -1,12 +1,17 @@
-name: Pre-delete Translation
+name: Test
 
 on:
-  pull_request:
+  schedule:
+    - cron: '* * * * *'
         
 jobs:
   changes:
     name: "changes"
     runs-on: ubuntu-latest
     steps:
-      - name: echo github context
-        run: echo "${{github.ref}}"
+      - name: Display Branch Information
+        run: |
+          printf "Ref: \t\t${{ github.ref }}"
+          printf "Head Ref: \t\t${{ github.head_ref }}"
+          printf "Ref Name: \t${{ github.ref_name }}"
+          printf "Commit SHA: \t${{ github.sha }}"
