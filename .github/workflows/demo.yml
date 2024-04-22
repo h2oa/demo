@@ -1,7 +1,12 @@
 name: Pre-delete Translation
 
 on:
-  pull_request: 
+  workflow_dispatch:
+    inputs:
+      commitMessage:
+        description: "Commit message for the update"
+        required: true
+        default: "chore: update visual tests"
         
 jobs:
   changes:
