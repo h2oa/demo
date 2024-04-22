@@ -1,9 +1,9 @@
 name: Test
 
 on:
-  schedule:
-    - cron: '* * * * *'
-  workflow_dispatch:
+  issue_comment:
+    types:
+      - created
         
 jobs:
   changes:
@@ -11,8 +11,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Display Branch Information
-        run: |
-          printf "Ref: \t\t${{ github.ref }}"
-          printf "Head Ref: \t\t${{ github.head_ref }}"
-          printf "Ref Name: \t${{ github.ref_name }}"
-          printf "Commit SHA: \t${{ github.sha }}"
+        run: echo "${{github.event.pull_request}}"
