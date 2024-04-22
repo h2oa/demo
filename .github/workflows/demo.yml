@@ -1,12 +1,7 @@
 name: Pre-delete Translation
 
 on:
-  workflow_dispatch:
-    inputs:
-      commitMessage:
-        description: "Commit message for the update"
-        required: true
-        default: "chore: update visual tests"
+  pull_request:
         
 jobs:
   changes:
@@ -14,5 +9,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: echo github context
-        if: always()
-        run: echo "${{github.event.inputs.commitMessage}}"
+        run: echo "${{github.ref}}"
