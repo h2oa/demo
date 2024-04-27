@@ -4,9 +4,6 @@ on:
   pull_request:
     paths:
       - path1/path2/
-  push:
-    branches:
-      - main
         
 jobs:
   changes:
