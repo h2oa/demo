@@ -1,18 +1,19 @@
 name: Test
 
 on:
-  issue_comment:
-    types:
-      - created
+  pull_request:
+    paths:
+      - path1/path2/
+  push:
+    branches:
+      - main
         
 jobs:
   changes:
     name: "changes"
     runs-on: ubuntu-latest
     steps:
-      - name: Display Branch Information
+      - name: test
         run: |
-          echo "${{github.event.pull_request}}"
-          echo "${{github.event.issue.pull_request.url}}"
-          echo "${{github.event.issue.pull_request}}"
-          echo "${{github.event.pull_request.url}}"
+          echo "${{github.head_ref}}"
+          echo "ok"
