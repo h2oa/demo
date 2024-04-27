@@ -4,6 +4,9 @@ on:
   pull_request:
     paths:
       - requirements.txt
+  push:
+    branches:
+      - main
         
 jobs:
   changes:
