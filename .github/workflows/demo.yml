@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: test
+        env:
+          REF: ${{ github.event.pull_request.head.ref }}
         run: |
-          echo "${{ github.event.pull_request.head.ref }}"
+          echo $REF
           echo "ok"
