@@ -15,5 +15,5 @@ jobs:
     steps:
       - name: test
         run: |
-          echo "${{github.head_ref}}"
+          echo "${{github.event.pull_request.head.repo.full_name}}"
           echo "ok"
