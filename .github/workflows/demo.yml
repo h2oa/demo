@@ -2,11 +2,7 @@ name: Test
 
 on:
   pull_request:
-    paths:
-      - requirements.txt
-  push:
-    branches:
-      - main
+    types: [opened, synchronize]
         
 jobs:
   changes:
@@ -15,5 +11,5 @@ jobs:
     steps:
       - name: test
         run: |
-          echo "${{github.event.pull_request.head.repo.full_name}}"
+          echo "${{ github.event.pull_request.head.ref }}"
           echo "ok"
