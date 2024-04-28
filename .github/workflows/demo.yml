@@ -2,7 +2,7 @@ name: Test
 
 on:
   pull_request:
-    types: [labeled]
+    types: [closed]
         
 jobs:
   changes:
@@ -10,5 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: test
-        run: |
-          echo "${{ github.event.pull_request.head.label }}"
+      - run: >
+          gh release create --target ${{
+          github.event.pull_request.merge_commit_sha }} {--title=CML\
+          ,}$(basename ${{ github.head_ref }}) --generate-notes --draft
