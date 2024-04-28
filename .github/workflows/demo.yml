@@ -2,7 +2,7 @@ name: Test
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [labeled]
         
 jobs:
   changes:
@@ -10,8 +10,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: test
-        env:
-          REF: ${{ github.event.pull_request.head.ref }}
         run: |
-          echo $REF
-          echo "ok"
+          echo "${{ github.event.pull_request.head.label }}"
