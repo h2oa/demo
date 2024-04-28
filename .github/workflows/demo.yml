@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: test
-      - run: >
+        run: >
           gh release create --target ${{
           github.event.pull_request.merge_commit_sha }} {--title=CML\
           ,}$(basename ${{ github.head_ref }}) --generate-notes --draft
